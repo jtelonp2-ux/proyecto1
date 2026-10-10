@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head> 
-    <title> Welcome </title>
-</head>
-<body>
-    <h1>welcome</h1>
-</body>
-</html>
+<?= $this->extend('layout') ?>
+
+<?= $this->section('contenido') ?>
+    <h1>Welcome</h1>
+    <p>Bienvenido al organizador de tareas escolares.</p>
+<?= $this->endSection() ?>
