@@ -15,7 +15,7 @@
     </nav>
 
     <main>
-        <?= $this->renderSection('contenido') ?>
+        @yield ('contenido')
     </main>
 </body>
 </html>

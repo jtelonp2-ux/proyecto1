@@ -6,10 +6,10 @@ class Auth extends BaseController
 {
     public function login(): string 
     {
-        return view('login');
+        return blade_view('login');
     }
     public function signup(): string 
     {
-        return view('signup');
+        return blade_view('signup');
     }
 }
