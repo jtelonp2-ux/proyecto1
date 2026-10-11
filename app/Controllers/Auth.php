@@ -43,4 +43,45 @@ class Auth extends BaseController
 
         return redirect()->to('/login')->with('message', 'Cuenta creada. Revisa tu correo para activarla.');
     }
+    
+public function authenticate()
+{
+    $reglas = [
+        'email'    => 'required|valid_email',
+        'password' => 'required',
+    ];
+
+    if (! $this->validate($reglas)) {
+        return redirect()->back()->withInput()->with('error', 'Datos inválidos.');
+    }
+
+    $modelo  = new UserModel();
+    $usuario = $modelo->where('email', $this->request->getPost('email'))->first();
+
+    if (! $usuario || ! password_verify($this->request->getPost('password'), $usuario['password'])) {
+        return redirect()->back()->withInput()->with('error', 'Correo o contraseña incorrectos.');
+    }
+
+    if ((int) $usuario['active'] !== 1) {
+        return redirect()->back()->withInput()->with('error', 'Tu cuenta aún no está activada.');
+    }
+
+    session()->regenerate();
+    session()->set([
+        'user_id'       => $usuario['id'],
+        'user_name'     => $usuario['name'],
+        'administrator' => (int) $usuario['administrator'],
+        'logged_in'     => true,
+    ]);
+
+    return redirect()->to('/')->with('message', 'Inicio de sesión exitoso.');
+}
+
+public function logout()
+{
+    session()->remove(['user_id', 'user_name', 'administrator', 'logged_in']);
+    session()->regenerate(true);
+   
+    return redirect()->to('/')->with('message', 'Sesión finalizada correctamente.');
+}
 }

@@ -6,16 +6,29 @@
     <title>Organizador de tareas</title>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="#">English</a>
-        <a href="#">Español</a>
+<nav>
+    <a href="/">Home</a>
+    <a href="#">English</a>
+    <a href="#">Español</a>
+
+    @if (session('logged_in'))
+        <span>Hello, {{ session('user_name') }}</span>
+        <a href="#">Profile</a>
+        @if (session('administrator'))
+            <a href="#">Users</a>
+        @endif
+        <a href="#">Tasks</a>
+        <a href="/logout">Log out</a>
+    @else
         <a href="/signup">Sign up</a>
         <a href="/login">Log in</a>
-    </nav>
+    @endif
+</nav>
 
-    <main>
-        @yield ('contenido')
-    </main>
-</body>
-</html>
+<main>
+    @if (session('message'))
+        <p>{{ session('message') }}</p>
+    @endif
+
+    @yield('contenido')
+</main>
