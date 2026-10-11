@@ -6,3 +6,4 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('login', 'Auth::login');
 $routes->get('signup','Auth::signup');
+$routes->post('signup', 'Auth::register');
