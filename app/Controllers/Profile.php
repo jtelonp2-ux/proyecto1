@@ -32,6 +32,35 @@ class Profile extends BaseController
 
         return redirect()->to('/profile/edit');
     }
+    
+    public function password(): string
+    {
+        return blade_view('profile_password');
+    }
+
+    public function updatePassword()
+    {
+        $reglas = [
+            'current_password'     => 'required',
+            'new_password'         => 'required|min_length[8]',
+            'new_password_confirm' => 'required|matches[new_password]',
+        ];
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->with('errors', $this->validator->getErrors());
+        }
+         $modelo  = new UserModel();
+    $usuario = $modelo->find(session('user_id'));
+
+    if (! password_verify((string) $this->request->getPost('current_password'), $usuario['password'])) {
+        return redirect()->back()->with('error', 'La contraseña actual es incorrecta.');
+    }
+
+      $modelo->update($usuario['id'], [
+        'password' => password_hash((string) $this->request->getPost('new_password'), PASSWORD_DEFAULT),
+    ]);
+
+    return redirect()->to('/profile')->with('message', 'Contraseña actualizada correctamente');
+    }
 
     public function edit()
     {

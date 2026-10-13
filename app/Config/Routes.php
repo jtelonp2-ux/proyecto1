@@ -15,5 +15,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('profile/confirm', 'Profile::checkPassword');
     $routes->get('profile/edit', 'Profile::edit');
     $routes->post('profile/edit', 'Profile::update');
+    $routes->get('profile/password', 'Profile::password');
+    $routes->post('profile/password', 'Profile::updatePassword');
 });
 

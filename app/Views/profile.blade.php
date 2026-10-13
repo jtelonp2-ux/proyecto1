@@ -7,4 +7,5 @@
     <p><strong>Email</strong><br>{{ $usuario['email'] }}</p>
 
     <a href="/profile/confirm">Edit</a>
+    <a href="/profile/password">Change password</a>
 @endsection
