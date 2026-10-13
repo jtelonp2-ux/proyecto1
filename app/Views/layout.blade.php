@@ -13,7 +13,7 @@
 
     @if (session('logged_in'))
         <span>Hello, {{ session('user_name') }}</span>
-        <a href="#">Profile</a>
+        <a href="profile">Profile</a>
         @if (session('administrator'))
             <a href="#">Users</a>
         @endif
