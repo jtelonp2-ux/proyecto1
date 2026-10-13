@@ -5,4 +5,6 @@
 
     <p><strong>Name</strong><br>{{ $usuario['name'] }}</p>
     <p><strong>Email</strong><br>{{ $usuario['email'] }}</p>
+
+    <a href="/profile/confirm">Edit</a>
 @endsection

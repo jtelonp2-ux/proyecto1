@@ -11,4 +11,9 @@ $routes->get('signup','Auth::signup');
 $routes->post('signup', 'Auth::register');
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('profile', 'Profile::index');
+     $routes->get('profile/confirm', 'Profile::confirm');  
+    $routes->post('profile/confirm', 'Profile::checkPassword');
+    $routes->get('profile/edit', 'Profile::edit');
+    $routes->post('profile/edit', 'Profile::update');
 });
+
