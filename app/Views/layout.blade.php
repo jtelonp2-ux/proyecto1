@@ -17,7 +17,7 @@
         @if (session('administrator'))
             <a href="#">Users</a>
         @endif
-        <a href="#">Tasks</a>
+        <a href="/tasks">Tasks</a>
         <a href="/logout">Log out</a>
     @else
         <a href="/signup">Sign up</a>
