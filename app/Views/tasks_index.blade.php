@@ -11,7 +11,7 @@
         <button type="submit">Search</button>
     </form>
 
-    @if (count($tareas) === 0)
+    @if (count($tareas) === 0)   
         <p>No tasks found.</p>
     @endif
 

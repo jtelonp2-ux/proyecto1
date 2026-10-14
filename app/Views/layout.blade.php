@@ -15,7 +15,7 @@
         <span>Hello, {{ session('user_name') }}</span>
         <a href="profile">Profile</a>
         @if (session('administrator'))
-            <a href="#">Users</a>
+            <a href="/users">Users</a>
         @endif
         <a href="/tasks">Tasks</a>
         <a href="/logout">Log out</a>
@@ -30,5 +30,10 @@
         <p>{{ session('message') }}</p>
     @endif
 
-    @yield('contenido')
+   @if (session('error'))
+
+   <p>{{ session('error') }}</p>
+   @endif
+
+   @yield('contenido')
 </main>

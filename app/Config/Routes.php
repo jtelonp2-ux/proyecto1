@@ -24,5 +24,14 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('profile/edit', 'Profile::update');
     $routes->get('profile/password', 'Profile::password');
     $routes->post('profile/password', 'Profile::updatePassword');
+$routes->group('users', ['filter' => ['auth', 'admin']], static function ($routes) {
+    $routes->get('/', 'Users::index');
+    $routes->get('new', 'Users::new');
+    $routes->post('/', 'Users::create');
+    $routes->get('(:num)', 'Users::show/$1');
+    $routes->get('(:num)/edit', 'Users::edit/$1');
+    $routes->post('(:num)/edit', 'Users::update/$1');
+    $routes->post('(:num)/delete', 'Users::delete/$1');
+});
 });
 
