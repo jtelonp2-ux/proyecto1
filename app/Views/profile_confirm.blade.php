@@ -1,19 +1,15 @@
 @extends('layout')
 
 @section('contenido')
-    <h1>Please enter your password to continue</h1>
-
-    @if (session('error'))
-        <p>{{ session('error') }}</p>
-    @endif
+    <h1>{{ lang('App.enterPassword') }}</h1>
 
     <form action="/profile/confirm" method="post">
         {!! csrf_field() !!}
 
-        <label for="password">Password</label><br>
+        <label for="password">{{ lang('App.password') }}</label><br>
         <input type="password" id="password" name="password"><br><br>
 
-        <button type="submit">Send</button>
-        <a href="/profile">Cancel</a>
+        <button type="submit">{{ lang('App.send') }}</button>
+        <a href="/profile">{{ lang('App.cancel') }}</a>
     </form>
 @endsection

@@ -25,7 +25,7 @@ class Profile extends BaseController
         $usuario = (new UserModel())->find(session('user_id'));
 
         if (! password_verify((string) $this->request->getPost('password'), $usuario['password'])) {
-            return redirect()->back()->with('error', 'Contraseña incorrecta.');
+            return redirect()->back()->with('error', lang('App.wrongPassword'));
         }
 
         session()->set('edit_ok', true);
@@ -52,14 +52,14 @@ class Profile extends BaseController
     $usuario = $modelo->find(session('user_id'));
 
     if (! password_verify((string) $this->request->getPost('current_password'), $usuario['password'])) {
-        return redirect()->back()->with('error', 'La contraseña actual es incorrecta.');
+        return redirect()->back()->with('error', lang('App.wrongCurrent'));
     }
 
       $modelo->update($usuario['id'], [
         'password' => password_hash((string) $this->request->getPost('new_password'), PASSWORD_DEFAULT),
     ]);
 
-    return redirect()->to('/profile')->with('message', 'Contraseña actualizada correctamente');
+    return redirect()->to('/profile')->with('message', lang('App.passwordUpdate'));
     }
 
     public function edit()
@@ -98,6 +98,6 @@ class Profile extends BaseController
         session()->set('user_name', $this->request->getPost('name'));
         session()->remove('edit_ok');
 
-        return redirect()->to('/profile')->with('message', 'Perfil actualizado correctamente.');
+        return redirect()->to('/profile')->with('message', lang('App.profileUpdated'));
     }
 }

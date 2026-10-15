@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('contenido')
-    <h1>Edit profile</h1>
+    <h1>{{ lang('App.editProfile') }}</h1>
 
     @if (session('errors'))
         <ul>
@@ -14,13 +14,13 @@
     <form action="/profile/edit" method="post">
         {!! csrf_field() !!}
 
-        <label for="name">Name</label><br>
+        <label for="name">{{ lang('App.name') }}</label><br>
         <input type="text" id="name" name="name" value="{{ old('name', $usuario['name']) }}"><br>
 
-        <label for="email">Email</label><br>
+        <label for="email">{{ lang('App.email') }}</label><br>
         <input type="email" id="email" name="email" value="{{ old('email', $usuario['email']) }}"><br><br>
 
-        <button type="submit">Save</button>
-        <a href="/profile">Cancel</a>
+        <button type="submit">{{ lang('App.save') }}</button>
+        <a href="/profile">{{ lang('App.cancel') }}</a>
     </form>
 @endsection
