@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('contenido')
-    <h1>New Task</h1>
+    <h1>{{ lang('App.newTask') }}</h1>
 
     @if (session('errors'))
         <ul>
@@ -14,10 +14,10 @@
     <form action="/tasks" method="post">
         {!! csrf_field() !!}
 
-        <label for="description">Description</label><br>
+        <label for="description">{{ lang('App.description') }}</label><br>
         <input type="text" id="description" name="description" value="{{ old('description') }}"><br><br>
 
-        <button type="submit">Send</button>
-        <a href="/tasks">Cancel</a>
+        <button type="submit">{{ lang('App.send') }}</button>
+        <a href="/tasks">{{ lang('App.cancel') }}</a>
     </form>
 @endsection

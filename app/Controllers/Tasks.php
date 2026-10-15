@@ -52,7 +52,7 @@ class Tasks extends BaseController
             'description' => $this->request->getPost('description'),
         ]);
 
-        return redirect()->to('/tasks')->with('message', 'Tarea creada.');
+        return redirect()->to('/tasks')->with('message', lang('App.taskCreated'));
     }
 
     public function show(int $id)
@@ -60,7 +60,7 @@ class Tasks extends BaseController
         $tarea = $this->tareaDelUsuario($id);
 
         if (! $tarea) {
-            return redirect()->to('/tasks')->with('error', 'Tarea no encontrada.');
+            return redirect()->to('/tasks')->with('error', lang('App.taskNotFound'));
         }
 
         return blade_view('tasks_show', ['tarea' => $tarea]);
@@ -71,7 +71,7 @@ class Tasks extends BaseController
         $tarea = $this->tareaDelUsuario($id);
 
         if (! $tarea) {
-            return redirect()->to('/tasks')->with('error', 'Tarea no encontrada.');
+            return redirect()->to('/tasks')->with('error', lang('App.taskNotFound'));
         }
 
         return blade_view('tasks_edit', ['tarea' => $tarea]);
@@ -80,7 +80,7 @@ class Tasks extends BaseController
     public function update(int $id)
     {
         if (! $this->tareaDelUsuario($id)) {
-            return redirect()->to('/tasks')->with('error', 'Tarea no encontrada.');
+            return redirect()->to('/tasks')->with('error', lang('App.taskNotFound'));
         }
 
         if (! $this->validate(['description' => 'required|max_length[255]'])) {
@@ -91,7 +91,7 @@ class Tasks extends BaseController
             'description' => $this->request->getPost('description'),
         ]);
 
-        return redirect()->to('/tasks/' . $id)->with('message', 'Tarea actualizada.');
+        return redirect()->to('/tasks/' . $id)->with('message', lang('App.taskUpdated'));
     }
 
     public function delete(int $id)
@@ -100,6 +100,6 @@ class Tasks extends BaseController
             (new TaskModel())->delete($id);
         }
 
-        return redirect()->to('/tasks')->with('message', 'Tarea eliminada.');
+        return redirect()->to('/tasks')->with('message', lang('App.taskDeleted'));
     }
 }

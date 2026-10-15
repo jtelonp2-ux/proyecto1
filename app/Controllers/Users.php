@@ -45,7 +45,7 @@ class Users extends BaseController
             'administrator' => 0,
         ]);
 
-        return redirect()->to('/users')->with('message', 'Usuario creado.');
+        return redirect()->to('/users')->with('message', lang('App.userCreated'));
     }
 
     public function show(int $id)
@@ -53,7 +53,7 @@ class Users extends BaseController
         $usuario = (new UserModel())->find($id);
 
         if (! $usuario) {
-            return redirect()->to('/users')->with('error', 'Usuario no encontrado.');
+            return redirect()->to('/users')->with('error', lang('App.userNotFound'));
         }
 
         return blade_view('users_show', ['usuario' => $usuario]);
@@ -64,7 +64,7 @@ class Users extends BaseController
         $usuario = (new UserModel())->find($id);
 
         if (! $usuario) {
-            return redirect()->to('/users')->with('error', 'Usuario no encontrado.');
+            return redirect()->to('/users')->with('error', lang('App.userNotFound'));
         }
 
         return blade_view('users_edit', ['usuario' => $usuario]);
@@ -76,7 +76,7 @@ class Users extends BaseController
         $usuario = $modelo->find($id);
 
         if (! $usuario) {
-            return redirect()->to('/users')->with('error', 'Usuario no encontrado.');
+            return redirect()->to('/users')->with('error', lang('App.userNotFound'));
         }
 
         $reglas = [
@@ -104,7 +104,6 @@ class Users extends BaseController
             $datos['password'] = password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT);
         }
 
-        // Un administrador no puede quitarse a sí mismo el rol ni desactivarse
         if ($id === (int) session('user_id')) {
             $datos['active']        = 1;
             $datos['administrator'] = 1;
@@ -112,17 +111,17 @@ class Users extends BaseController
 
         $modelo->update($id, $datos);
 
-        return redirect()->to('/users/' . $id)->with('message', 'Usuario actualizado.');
+        return redirect()->to('/users/' . $id)->with('message', lang('App.userUpdated'));
     }
 
     public function delete(int $id)
     {
         if ($id === (int) session('user_id')) {
-            return redirect()->to('/users')->with('error', 'No puedes eliminar tu propia cuenta.');
+            return redirect()->to('/users')->with('error', lang('App.cannotDeleteSelf'));
         }
 
         (new UserModel())->delete($id);
 
-        return redirect()->to('/users')->with('message', 'Usuario eliminado.');
+        return redirect()->to('/users')->with('message', lang('App.userDeleted'));
     }
 }
