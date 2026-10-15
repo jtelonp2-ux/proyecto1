@@ -65,4 +65,9 @@ return [
     'userNotFound'      => 'Usuario no encontrado.',
     'newer'             => 'Más recientes',
     'older'             => 'Más antiguos',
+    'changeImage'  => 'Cambiar imagen de perfil',
+    'deleteImage'  => 'Eliminar imagen de perfil',
+    'editImage'    => 'Editar imagen de perfil',
+    'imageUpdated' => 'Imagen de perfil actualizada.',
+    'imageDeleted' => 'Imagen de perfil eliminada.',
 ];

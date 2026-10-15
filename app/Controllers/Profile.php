@@ -100,4 +100,53 @@ class Profile extends BaseController
 
         return redirect()->to('/profile')->with('message', lang('App.profileUpdated'));
     }
+
+    public function image(): string
+{
+    return blade_view('profile_image');
 }
+
+public function saveImage()
+{
+    $reglas = [
+        'photo' => 'uploaded[photo]|is_image[photo]|mime_in[photo,image/jpg,image/jpeg,image/png,image/webp]|max_size[photo,2048]',
+    ];
+
+    if (! $this->validate($reglas)) {
+        return redirect()->back()->with('errors', $this->validator->getErrors());
+    }
+
+    $archivo = $this->request->getFile('photo');
+    $nombre  = $archivo->getRandomName();
+    $archivo->move(FCPATH . 'uploads/avatars', $nombre);
+
+    $modelo  = new UserModel();
+    $usuario = $modelo->find(session('user_id'));
+
+    if (! empty($usuario['photo'])) {
+        @unlink(FCPATH . 'uploads/avatars/' . basename($usuario['photo']));
+    }
+
+    $modelo->update($usuario['id'], ['photo' => $nombre]);
+
+    return redirect()->to('/profile')->with('message', lang('App.imageUpdated'));
+}
+
+public function confirmDeleteImage(): string
+{
+    return blade_view('profile_image_delete');
+}
+
+public function deleteImage()
+{
+    $modelo  = new UserModel();
+    $usuario = $modelo->find(session('user_id'));
+
+    if (! empty($usuario['photo'])) {
+        @unlink(FCPATH . 'uploads/avatars/' . basename($usuario['photo']));
+        $modelo->update($usuario['id'], ['photo' => null]);
+    }
+
+    return redirect()->to('/profile')->with('message', lang('App.imageDeleted'));
+}
+    }

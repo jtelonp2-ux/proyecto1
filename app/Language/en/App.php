@@ -65,4 +65,9 @@ return [
     'userNotFound'      => 'User not found.',
     'newer'             => 'Newer',
     'older'             => 'Older',
+    'changeImage'  => 'Change profile image',
+    'deleteImage'  => 'Delete profile image',
+    'editImage'    => 'Edit profile image',
+    'imageUpdated' => 'Profile image updated.',
+    'imageDeleted' => 'Profile image deleted.',
 ];

@@ -14,6 +14,10 @@ $routes->post('login', 'Auth::authenticate');
 $routes->get('logout', 'Auth::logout');
 $routes->get('signup', 'Auth::signup');
 $routes->post('signup', 'Auth::register');
+$routes->get('profile/image', 'Profile::image');
+$routes->post('profile/image', 'Profile::saveImage');
+$routes->get('profile/image/delete', 'Profile::confirmDeleteImage');
+$routes->post('profile/image/delete', 'Profile::deleteImage');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('profile', 'Profile::index');
