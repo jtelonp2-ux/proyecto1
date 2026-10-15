@@ -63,4 +63,6 @@ return [
     'userUpdated'       => 'Usuario actualizado.',
     'userDeleted'       => 'Usuario eliminado.',
     'userNotFound'      => 'Usuario no encontrado.',
+    'newer'             => 'Más recientes',
+    'older'             => 'Más antiguos',
 ];

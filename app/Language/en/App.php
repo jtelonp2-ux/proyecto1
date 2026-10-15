@@ -63,4 +63,6 @@ return [
     'userUpdated'       => 'User updated.',
     'userDeleted'       => 'User deleted.',
     'userNotFound'      => 'User not found.',
+    'newer'             => 'Newer',
+    'older'             => 'Older',
 ];

@@ -21,5 +21,5 @@
         @endforeach
     </ul>
 
-    {!! $pager->links() !!}
+    {!! $pager->links('default', 'newer_older') !!}
 @endsection

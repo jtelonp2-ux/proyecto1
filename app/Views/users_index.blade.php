@@ -28,5 +28,5 @@
         </tbody>
     </table>
 
-    {!! $pager->links() !!}
+    {!! $pager->links('default', 'newer_older') !!}
 @endsection
