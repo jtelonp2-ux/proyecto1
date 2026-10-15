@@ -1,69 +1,75 @@
-# CodeIgniter 4 Application Starter
+# Sistema organizador de tareas escolares
 
-## What is CodeIgniter?
+Proyecto de Algoritmos, Universidad Mariano Gálvez de Guatemala.
+Aplicación web con PHP (CodeIgniter 4) y Blade, arquitectura MVC.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Requisitos
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- Ubuntu/Lubuntu 22 o superior
+- PHP 8.1 o superior (extensiones: intl, mbstring, mysql, xml, curl, zip)
+- MySQL 8
+- Composer
+- Git
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Instalación
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+1. Clonar el repositorio:   
 
-## Installation & updates
+```
+   git clone https://github.com/jtelonp2-ux/proyecto1.git
+   cd proyecto1
+```
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+2. Instalar dependencias:
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+```
+   composer install
+```
 
-## Setup
+3. Crear la base de datos y las tablas:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+```
+   sudo mysql < database/schema.sql
+```
 
-## Important Change with index.php
+4. Crear un usuario de MySQL para la aplicación (cambiar usuario y clave):
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```
+   sudo mysql -e "CREATE USER 'mi_usuario'@'localhost' IDENTIFIED BY 'mi_clave'; GRANT ALL PRIVILEGES ON organizador.* TO 'mi_usuario'@'localhost'; FLUSH PRIVILEGES;"
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+5. Copiar la configuración y editar `.env` con el usuario y la clave del paso anterior:
 
-**Please** read the user guide for a better explanation of how CI4 works!
+```
+   cp .env.example .env
+```
 
-## Repository Management
+6. Crear la carpeta de caché de Blade:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```
+   mkdir -p writable/cache/blade
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+7. Iniciar el servidor:
 
-## Server Requirements
+```
+   php spark serve
+```
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+8. Abrir `http://localhost:8080` en el navegador.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## Primer administrador
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+Registrar un usuario desde Sign up y luego ejecutar:
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+```
+sudo mysql -e "UPDATE organizador.users SET active = 1, administrator = 1 WHERE id = 1;"
+```
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+## Funcionalidades
+
+- Registro, inicio y cierre de sesión
+- Perfil: edición con confirmación de contraseña y cambio de contraseña
+- Gestión de usuarios (solo administrador)
+- Gestión de tareas con búsqueda y paginación
+- Cambio de idioma (English / Español)
