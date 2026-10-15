@@ -7,24 +7,23 @@
 </head>
 <body>
 <nav>
-    <a href="/">Home</a>
-    <a href="#">English</a>
-    <a href="#">Español</a>
+    <a href="/">{{ lang('App.home') }}</a>
+    <a href="/lang/en">English</a>
+    <a href="/lang/es">Español</a>
 
     @if (session('logged_in'))
-        <span>Hello, {{ session('user_name') }}</span>
-        <a href="profile">Profile</a>
+        <span>{{ lang('App.hello') }}, {{ session('user_name') }}</span>
+        <a href="/profile">{{ lang('App.profile') }}</a>
         @if (session('administrator'))
-            <a href="/users">Users</a>
+            <a href="/users">{{ lang('App.users') }}</a>
         @endif
-        <a href="/tasks">Tasks</a>
-        <a href="/logout">Log out</a>
+        <a href="/tasks">{{ lang('App.tasks') }}</a>
+        <a href="/logout">{{ lang('App.logout') }}</a>
     @else
-        <a href="/signup">Sign up</a>
-        <a href="/login">Log in</a>
+        <a href="/signup">{{ lang('App.signup') }}</a>
+        <a href="/login">{{ lang('App.login') }}</a>
     @endif
 </nav>
-
 <main>
     @if (session('message'))
         <p>{{ session('message') }}</p>

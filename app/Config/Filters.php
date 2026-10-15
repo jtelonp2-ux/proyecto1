@@ -25,6 +25,7 @@ class Filters extends BaseFilters
      * or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
+        'lang'          => \App\Filters\LangFilter::class,
         'auth'          => \App\Filters\AuthFilter::class,
         'admin'         => \App\Filters\AdminFilter::class,
         'csrf'          => CSRF::class,
@@ -74,7 +75,8 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'csrf',
+            'csrf', 
+            'lang',
         ],
         'after' => [
             // 'honeypot',

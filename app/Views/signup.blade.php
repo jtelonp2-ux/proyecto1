@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('contenido')
-    <h1>Sign up</h1>
+    <h1>{{ lang('App.signup') }}</h1>
 
     @if (session('errors'))
         <ul>
@@ -14,19 +14,19 @@
     <form action="/signup" method="post">
         {!! csrf_field() !!}
 
-        <label for="name">Name</label><br>
+        <label for="name">{{ lang('App.name') }}</label><br>
         <input type="text" id="name" name="name" value="{{ old('name') }}"><br>
 
-        <label for="email">Email</label><br>
+        <label for="email">{{ lang('App.email') }}</label><br>
         <input type="email" id="email" name="email" value="{{ old('email') }}"><br>
 
-        <label for="password">Password</label><br>
+        <label for="password">{{ lang('App.password') }}</label><br>
         <input type="password" id="password" name="password"><br>
 
-        <label for="password_confirm">Repeat password</label><br>
+        <label for="password_confirm">{{ lang('App.repeatPassword') }}</label><br>
         <input type="password" id="password_confirm" name="password_confirm"><br><br>
 
-        <button type="submit">Sign up</button>
-        <a href="/">Cancel</a>
+        <button type="submit">{{ lang('App.signup') }}</button>
+        <a href="/">{{ lang('App.cancel') }}</a>
     </form>
 @endsection

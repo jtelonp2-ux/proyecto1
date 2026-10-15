@@ -1,6 +1,6 @@
-@extends('layout') 
+@extends('layout')
 
-@section('contenido') 
-    <h1>Welcome</h1>
-    <p>Bienvenido al organizador de tareas escolares.</p>
-@endSection
+@section('contenido')
+    <h1>{{ lang('App.welcome') }}</h1>
+    <p>{{ lang('App.welcomeText') }}</p>
+@endsection
