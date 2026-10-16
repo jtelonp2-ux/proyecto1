@@ -17,6 +17,6 @@
         </label><br><br>
 
         <button type="submit">{{ lang('App.login') }}</button>
-        <a href="#">{{ lang('App.forgotPassword') }}</a>
+        <a href="/forgot-password">{{ lang('App.forgotPassword') }}</a>
     </form>
 @endsection

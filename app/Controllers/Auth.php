@@ -132,4 +132,90 @@ class Auth extends BaseController
 
         return redirect()->to('/login')->with('message', 'Cuenta activada. Ya puedes iniciar sesión.');
     }
+
+    public function forgot(): string
+    {
+        return blade_view('forgot');
+    }
+
+    public function sendReset()
+    {
+        if (! $this->validate(['email' => 'required|valid_email'])) {
+            return redirect()->back()->withInput()->with('error', 'Correo inválido.');
+        }
+
+        $modelo  = new UserModel();
+        $usuario = $modelo->where('email', $this->request->getPost('email'))->first();
+
+        if ($usuario) {
+            $token = bin2hex(random_bytes(32));
+
+            $modelo->update($usuario['id'], [
+                'reset_token'   => hash('sha256', $token),
+                'reset_expires' => date('Y-m-d H:i:s', time() + 3600),
+            ]);
+
+            $correo = service('email');
+            $correo->setTo($usuario['email']);
+            $correo->setSubject('Restablecer contraseña');
+            $correo->setMessage(
+                '<p>Recibimos una solicitud para restablecer tu contraseña.</p>'
+                . '<p><a href="' . base_url('reset-password/' . $token) . '">Restablecer contraseña</a></p>'
+                . '<p>El enlace vence en 1 hora. Si no fuiste tú, ignora este mensaje.</p>'
+            );
+
+            if (! $correo->send()) {
+                log_message('error', $correo->printDebugger(['headers']));
+            }
+        }
+
+        return redirect()->to('/login')->with('message', 'Si el correo existe, te enviamos instrucciones.');
+    }
+
+    private function usuarioPorResetToken(string $token): ?array
+    {
+        $usuario = (new UserModel())->where('reset_token', hash('sha256', $token))->first();
+
+        if (! $usuario || empty($usuario['reset_expires']) || strtotime($usuario['reset_expires']) < time()) {
+            return null;
+        }
+
+        return $usuario;
+    }
+
+    public function resetForm(string $token)
+    {
+        if (! $this->usuarioPorResetToken($token)) {
+            return redirect()->to('/login')->with('error', 'Enlace inválido o vencido.');
+        }
+
+        return blade_view('reset', ['token' => $token]);
+    }
+
+    public function resetSave(string $token)
+    {
+        $usuario = $this->usuarioPorResetToken($token);
+
+        if (! $usuario) {
+            return redirect()->to('/login')->with('error', 'Enlace inválido o vencido.');
+        }
+
+        $reglas = [
+            'password'         => 'required|min_length[8]',
+            'password_confirm' => 'required|matches[password]',
+        ];
+
+        if (! $this->validate($reglas)) {
+            return redirect()->back()->with('errors', $this->validator->getErrors());
+        }
+
+        (new UserModel())->update($usuario['id'], [
+            'password'       => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
+            'reset_token'    => null,
+            'reset_expires'  => null,
+            'remember_token' => null,
+        ]);
+
+        return redirect()->to('/login')->with('message', 'Contraseña restablecida. Ya puedes iniciar sesión.');
+    }
 }

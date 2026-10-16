@@ -5,20 +5,18 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-
-
 $routes->get('/', 'Home::index');
 $routes->get('lang/(:segment)', 'Language::set/$1');
-$routes->get('activate/(:segment)', 'Auth::activate/$1');
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::authenticate');
 $routes->get('logout', 'Auth::logout');
 $routes->get('signup', 'Auth::signup');
 $routes->post('signup', 'Auth::register');
-$routes->get('profile/image', 'Profile::image');
-$routes->post('profile/image', 'Profile::saveImage');
-$routes->get('profile/image/delete', 'Profile::confirmDeleteImage');
-$routes->post('profile/image/delete', 'Profile::deleteImage');
+$routes->get('activate/(:segment)', 'Auth::activate/$1');
+$routes->get('forgot-password', 'Auth::forgot');
+$routes->post('forgot-password', 'Auth::sendReset');
+$routes->get('reset-password/(:segment)', 'Auth::resetForm/$1');
+$routes->post('reset-password/(:segment)', 'Auth::resetSave/$1');
 
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('profile', 'Profile::index');
@@ -28,6 +26,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('profile/edit', 'Profile::update');
     $routes->get('profile/password', 'Profile::password');
     $routes->post('profile/password', 'Profile::updatePassword');
+    $routes->get('profile/image', 'Profile::image');
+    $routes->post('profile/image', 'Profile::saveImage');
+    $routes->get('profile/image/delete', 'Profile::confirmDeleteImage');
+    $routes->post('profile/image/delete', 'Profile::deleteImage');
 
     $routes->get('tasks', 'Tasks::index');
     $routes->get('tasks/new', 'Tasks::new');
@@ -45,5 +47,4 @@ $routes->group('users', ['filter' => ['auth', 'admin']], static function ($route
     $routes->get('(:num)/edit', 'Users::edit/$1');
     $routes->post('(:num)/edit', 'Users::update/$1');
     $routes->post('(:num)/delete', 'Users::delete/$1');
-    $routes->get('activate/(:segment)', 'Auth::activate/$1');
 });
