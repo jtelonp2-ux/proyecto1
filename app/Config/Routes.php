@@ -9,6 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'Home::index');
 $routes->get('lang/(:segment)', 'Language::set/$1');
+$routes->get('activate/(:segment)', 'Auth::activate/$1');
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::authenticate');
 $routes->get('logout', 'Auth::logout');
@@ -44,4 +45,5 @@ $routes->group('users', ['filter' => ['auth', 'admin']], static function ($route
     $routes->get('(:num)/edit', 'Users::edit/$1');
     $routes->post('(:num)/edit', 'Users::update/$1');
     $routes->post('(:num)/delete', 'Users::delete/$1');
+    $routes->get('activate/(:segment)', 'Auth::activate/$1');
 });

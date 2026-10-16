@@ -90,6 +90,8 @@ class Auth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        $token = bin2hex(random_bytes(32));
+
         $modelo = new UserModel();
         $modelo->insert([
             'name'             => $this->request->getPost('name'),
@@ -97,9 +99,37 @@ class Auth extends BaseController
             'password'         => password_hash((string) $this->request->getPost('password'), PASSWORD_DEFAULT),
             'active'           => 0,
             'administrator'    => 0,
-            'activation_token' => bin2hex(random_bytes(32)),
+            'activation_token' => $token,
         ]);
 
+        $correo = service('email');
+        $correo->setTo($this->request->getPost('email'));
+        $correo->setSubject('Activa tu cuenta');
+        $correo->setMessage(
+            '<p>Hola, gracias por registrarte.</p>'
+            . '<p><a href="' . base_url('activate/' . $token) . '">Activar mi cuenta</a></p>'
+        );
+
+        if (! $correo->send()) {
+            log_message('error', $correo->printDebugger(['headers']));
+
+            return redirect()->to('/login')->with('error', 'Cuenta creada, pero no se pudo enviar el correo.');
+        }
+
         return redirect()->to('/login')->with('message', 'Cuenta creada. Revisa tu correo para activarla.');
+    }
+
+    public function activate(string $token)
+    {
+        $modelo  = new UserModel();
+        $usuario = $token !== '' ? $modelo->where('activation_token', $token)->first() : null;
+
+        if (! $usuario) {
+            return redirect()->to('/login')->with('error', 'Enlace de activación inválido.');
+        }
+
+        $modelo->update($usuario['id'], ['active' => 1, 'activation_token' => null]);
+
+        return redirect()->to('/login')->with('message', 'Cuenta activada. Ya puedes iniciar sesión.');
     }
 }
