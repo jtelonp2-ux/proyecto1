@@ -4,8 +4,8 @@ CREATE DATABASE IF NOT EXISTS organizador
 USE organizador;
 
 CREATE TABLE IF NOT EXISTS users (
-    reser_token VARCHAR(64) NULL,
-    reser_expires DATETIME NULL,
+    reset_token VARCHAR(64) NULL,
+    reset_expires DATETIME NULL,
     activation_token VARCHAR(64) NULL,
     remember_token VARCHAR(64) NULL,
     created_at DATETIME NULL,
