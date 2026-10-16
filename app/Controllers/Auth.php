@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;       
+use App\Models\UserModel;
 
 class Auth extends BaseController
 {
@@ -43,15 +43,33 @@ class Auth extends BaseController
             'logged_in'     => true,
         ]);
 
-        return redirect()->to('/')->with('message', lang('App.loginSuccess'));
+        $respuesta = redirect()->to('/')->with('message', lang('App.loginSuccess'));
+
+        if ($this->request->getPost('remember')) {
+            $token = bin2hex(random_bytes(32));
+
+            $modelo->update($usuario['id'], ['remember_token' => hash('sha256', $token)]);
+
+            $respuesta->setCookie('remember', $usuario['id'] . ':' . $token, 30 * DAY, '', '/', '', false, true);
+        }
+
+        return $respuesta;
     }
 
     public function logout()
     {
+        $id = session('user_id');
+
+        if ($id) {
+            (new UserModel())->update($id, ['remember_token' => null]);
+        }
+
         session()->destroy();
         session()->start();
 
-        return redirect()->to('/')->with('message', lang('App.logoutSuccess'));
+        return redirect()->to('/')
+            ->with('message', lang('App.logoutSuccess'))
+            ->deleteCookie('remember');
     }
 
     public function signup(): string

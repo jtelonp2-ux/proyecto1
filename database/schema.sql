@@ -4,6 +4,10 @@ CREATE DATABASE IF NOT EXISTS organizador
 USE organizador;
 
 CREATE TABLE IF NOT EXISTS users (
+    activation_token VARCHAR(64) NULL,
+    remember_token VARCHAR(64) NULL,
+    created_at DATETIME NULL,
+    updated_at DATETIME NULL
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,

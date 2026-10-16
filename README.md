@@ -48,7 +48,7 @@ Aplicación web con PHP (CodeIgniter 4) y Blade, arquitectura MVC.
 
 ```
    mkdir -p writable/cache/blade
-```
+```mkdir -p public/uploads/avatars
 
 7. Iniciar el servidor:
 

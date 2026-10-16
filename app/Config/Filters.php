@@ -25,6 +25,7 @@ class Filters extends BaseFilters
      * or [filter_name => [classname1, classname2, ...]]
      */
     public array $aliases = [
+        'remember'      => \App\Filters\RememberFilter::class,
         'lang'          => \App\Filters\LangFilter::class,
         'auth'          => \App\Filters\AuthFilter::class,
         'admin'         => \App\Filters\AdminFilter::class,
@@ -77,6 +78,7 @@ class Filters extends BaseFilters
         'before' => [
             'csrf', 
             'lang',
+            'remember',
         ],
         'after' => [
             // 'honeypot',
